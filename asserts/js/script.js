@@ -3,26 +3,57 @@
 ===================================================== */
 
 const navLinks = document.querySelectorAll(".nav-link");
-const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
-navLinks.forEach(function (link) {
-    const linkPage = link.getAttribute("href");
+const sections = document.querySelectorAll("section");
 
-    link.classList.toggle(
-        "active",
-        linkPage === currentPage ||
-        (currentPage === "index.html" && linkPage === "index.html")
-    );
+
+window.addEventListener("scroll", function () {
+
+    let current = "home";
+
+
+    sections.forEach(function (section) {
+
+        const sectionTop = section.offsetTop - 150;
+
+        const sectionHeight = section.offsetHeight;
+
+
+        if (
+            window.scrollY >= sectionTop &&
+            window.scrollY < sectionTop + sectionHeight
+        ) {
+
+            current = section.getAttribute("id");
+
+        }
+
+    });
+
+
+    navLinks.forEach(function (link) {
+
+        link.classList.remove("active");
+
+
+        if (
+            link.getAttribute("href") === "#" + current
+        ) {
+
+            link.classList.add("active");
+
+        }
+
+    });
+
 });
 
 //AOS Animation home page
-if (typeof AOS !== "undefined") {
-    AOS.init({
+ AOS.init({
         duration: 2000,
         once: true,
         offset: 100
     });
-}
 
 
     /* =================================
@@ -32,64 +63,46 @@ if (typeof AOS !== "undefined") {
 const contactForm = document.getElementById("contactForm");
 
 if (contactForm) {
+
     contactForm.addEventListener("submit", function (event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const name = document.getElementById("fullName").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const message = document.getElementById("message").value.trim();
+        const name = document.getElementById("fullName").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const phone = document.getElementById("phone").value.trim();
+        const message = document.getElementById("message").value.trim();
 
+        if (name === "") {
+            alert("Please enter your name.");
+            return;
+        }
 
-    /* Basic Validation */
+        if (email === "") {
+            alert("Please enter your email address.");
+            return;
+        }
 
-    if (name === "") {
-        alert("Please enter your name.");
-        return;
-    }
+        if (phone === "") {
+            alert("Please enter your phone number.");
+            return;
+        }
 
+        if (message === "") {
+            alert("Please enter your message.");
+            return;
+        }
 
-    if (email === "") {
-        alert("Please enter your email address.");
-        return;
-    }
+        alert(
+            "Thank you " + name +
+            "! Your enquiry has been submitted successfully."
+        );
 
-
-    if (phone === "") {
-        alert("Please enter your phone number.");
-        return;
-    }
-
-
-    if (message === "") {
-        alert("Please enter your message.");
-        return;
-    }
-
-
-    /* Success */
-
-    alert(
-        "Thank you " + name +
-        "! Your enquiry has been submitted successfully."
-    );
-
-
-    /* Clear form */
-
-    contactForm.reset();
+        contactForm.reset();
 
     });
+
 }
-
-
-
-
-
-/* =========================================
- Careere section
-========================================= */
 
 
 
@@ -98,41 +111,34 @@ if (contactForm) {
 ========================================= */
 
 const applyButtons = document.querySelectorAll(".apply-btn");
+const selectedJob = document.getElementById("selectedJob");
 
-const selectedJob =
-    document.getElementById("selectedJob");
+if (applyButtons.length > 0 && selectedJob) {
 
+    applyButtons.forEach(function (button) {
 
-applyButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
 
-    button.addEventListener("click", function () {
+            console.log("Apply Button clicked");
 
-        const jobName =
-            button.getAttribute("data-job");
+            const jobName =
+                button.getAttribute("data-job");
 
+            selectedJob.value = jobName;
 
-        /* Put selected job inside modal */
+            const modalElement =
+                document.getElementById("applyModal");
 
-        if (!selectedJob) {
-            return;
-        }
+            const modal =
+                new bootstrap.Modal(modalElement);
 
-        selectedJob.value = jobName;
+            modal.show();
 
-
-        /* Open Bootstrap modal */
-
-        const modalElement =
-            document.getElementById("applyModal");
-
-        const modal =
-            new bootstrap.Modal(modalElement);
-
-        modal.show();
+        });
 
     });
 
-});
+}
 
 
 
@@ -143,90 +149,60 @@ applyButtons.forEach(function (button) {
 const applicationForm =
     document.getElementById("applicationForm");
 
-
 if (applicationForm) {
+
     applicationForm.addEventListener(
         "submit",
         function (event) {
 
-        event.preventDefault();
+            event.preventDefault();
 
+            const name =
+                document.getElementById("applicantName").value.trim();
 
-        const name =
-            document.getElementById(
-                "applicantName"
-            ).value.trim();
+            const email =
+                document.getElementById("applicantEmail").value.trim();
 
+            const phone =
+                document.getElementById("applicantPhone").value.trim();
 
-        const email =
-            document.getElementById(
-                "applicantEmail"
-            ).value.trim();
+            const job =
+                document.getElementById("selectedJob").value;
 
+            if (name === "") {
+                alert("Please enter your name.");
+                return;
+            }
 
-        const phone =
-            document.getElementById(
-                "applicantPhone"
-            ).value.trim();
+            if (email === "") {
+                alert("Please enter your email.");
+                return;
+            }
 
+            if (phone === "") {
+                alert("Please enter your phone number.");
+                return;
+            }
 
-        const job =
-            document.getElementById(
-                "selectedJob"
-            ).value;
-
-
-        if (name === "") {
-
-            alert("Please enter your name.");
-
-            return;
-
-        }
-
-
-        if (email === "") {
-
-            alert("Please enter your email.");
-
-            return;
-
-        }
-
-
-        if (phone === "") {
-
-            alert("Please enter your phone number.");
-
-            return;
-
-        }
-
-
-        alert(
-            "Thank you " +
-            name +
-            "! Your application for " +
-            job +
-            " has been received."
-        );
-
-
-        applicationForm.reset();
-
-
-        /* Close modal */
-
-        const modalElement =
-            document.getElementById("applyModal");
-
-        const modal =
-            bootstrap.Modal.getInstance(
-                modalElement
+            alert(
+                "Thank you " + name +
+                "! Your application for " + job +
+                " has been received."
             );
 
-        modal.hide();
+            applicationForm.reset();
+
+            const modalElement =
+                document.getElementById("applyModal");
+
+            const modal =
+                bootstrap.Modal.getInstance(modalElement);
+
+            if (modal) {
+                modal.hide();
+            }
 
         }
     );
+
 }
