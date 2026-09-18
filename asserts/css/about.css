@@ -20,6 +20,9 @@
 
 html {
     scroll-behavior: smooth;
+     width: 100%;
+     max-width: 100%;
+     overflow-x: hidden;
 }
 
 
@@ -449,7 +452,7 @@ margin-top: 90px;
 
     .overview-section{
         padding:25px;
-        margin:50px 15px;
+        /* margin:50px 15px; */
     }
 
     .content h2{

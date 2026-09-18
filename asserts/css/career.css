@@ -15,6 +15,9 @@
 
 html {
     scroll-behavior: smooth;
+    width: 100%;
+     max-width: 100%;
+    overflow-x: hidden;
 }
 
 
@@ -205,11 +208,11 @@ margin-top: 90px;
 
 .section-tag::before{
     content:'';
-    width:45px;
-    height:2px;
+    width:35px;
+    height:3px;
     background:#9fe4ff;
     position:absolute;
-    left:-55px;
+    left:-40px;
     top:50%;
     transform:translateY(-50%);
 }
@@ -931,6 +934,9 @@ h2{
     border-radius:15px;
     box-shadow:0 5px 15px rgba(0,0,0,0.05);
 }
+.benefits-box p {
+    color: var(--dark);
+}
 
 .benefits-box ul{
     padding-left:18px;
@@ -941,6 +947,10 @@ h2{
     color:#243860;
 }
 
+.benefits-box:hover{
+    transform: translateY(-15px);
+    background-color: #b0d3dd;
+}
 .feature-card{
     background:#fff;
     border:1px solid #e7ebf7;
@@ -953,6 +963,8 @@ h2{
 .feature-card:hover{
     transform:translateY(-10px);
     box-shadow:0 15px 35px rgba(0,0,0,0.10);
+    background-color: #c0cccf;
+  
 }
 
 .icon-box{
@@ -987,7 +999,7 @@ h2{
 }
 
 .feature-card p{
-    color:#6c757d;
+    color:#060709;
     line-height:1.7;
 }
 
