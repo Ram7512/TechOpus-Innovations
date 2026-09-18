@@ -3,57 +3,26 @@
 ===================================================== */
 
 const navLinks = document.querySelectorAll(".nav-link");
+const currentPage = window.location.pathname.split("/").pop() || "index.html";
 
-const sections = document.querySelectorAll("section");
+navLinks.forEach(function (link) {
+    const linkPage = link.getAttribute("href");
 
-
-window.addEventListener("scroll", function () {
-
-    let current = "home";
-
-
-    sections.forEach(function (section) {
-
-        const sectionTop = section.offsetTop - 150;
-
-        const sectionHeight = section.offsetHeight;
-
-
-        if (
-            window.scrollY >= sectionTop &&
-            window.scrollY < sectionTop + sectionHeight
-        ) {
-
-            current = section.getAttribute("id");
-
-        }
-
-    });
-
-
-    navLinks.forEach(function (link) {
-
-        link.classList.remove("active");
-
-
-        if (
-            link.getAttribute("href") === "#" + current
-        ) {
-
-            link.classList.add("active");
-
-        }
-
-    });
-
+    link.classList.toggle(
+        "active",
+        linkPage === currentPage ||
+        (currentPage === "index.html" && linkPage === "index.html")
+    );
 });
 
 //AOS Animation home page
- AOS.init({
+if (typeof AOS !== "undefined") {
+    AOS.init({
         duration: 2000,
         once: true,
         offset: 100
     });
+}
 
 
     /* =================================
@@ -62,7 +31,8 @@ window.addEventListener("scroll", function () {
 
 const contactForm = document.getElementById("contactForm");
 
-contactForm.addEventListener("submit", function (event) {
+if (contactForm) {
+    contactForm.addEventListener("submit", function (event) {
 
     event.preventDefault();
 
@@ -110,7 +80,8 @@ contactForm.addEventListener("submit", function (event) {
 
     contactForm.reset();
 
-});
+    });
+}
 
 
 
@@ -142,6 +113,10 @@ applyButtons.forEach(function (button) {
 
         /* Put selected job inside modal */
 
+        if (!selectedJob) {
+            return;
+        }
+
         selectedJob.value = jobName;
 
 
@@ -169,9 +144,10 @@ const applicationForm =
     document.getElementById("applicationForm");
 
 
-applicationForm.addEventListener(
-    "submit",
-    function (event) {
+if (applicationForm) {
+    applicationForm.addEventListener(
+        "submit",
+        function (event) {
 
         event.preventDefault();
 
@@ -251,5 +227,6 @@ applicationForm.addEventListener(
 
         modal.hide();
 
-    }
-);
+        }
+    );
+}
